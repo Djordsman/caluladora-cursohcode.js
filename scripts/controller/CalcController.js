@@ -41,24 +41,48 @@ class CalcController {
 
     }
 
-    clearEntry(){
+    getLastOperation(){
+       return this._operation[this._operation.length-1];
+    }
 
-        this._operation.pop();
-
+    isOperator(value){
+        return (['+', '-', '*', '%', '/'].indexOf(value) > -1);
     }
 
     addOperation(value){
+        console.log('A', isNaN(this.getLastOperation()));
 
-        this._operation.push(value);
+        if (isNaN(this.getLastOperation())) {
+
+            if (this.isOperator(value)) {
+
+                this.setLastOperation(value);
+
+            } else if (isNaN(value)){
+
+                console.log(value);
+
+            } else {
+
+                this._operation.push(value);
+
+            }
+
+        } else {
+
+            let newValue = this.getLastOperation().toString() + value.toString();
+            this.setLastOperation(parseInt(newValue));
+        }
 
         console.log(this._operation);
+    }
 
+    clearEntry(){
+        this._operation.pop();
     }
 
     setError(){
-
         this.displayCalc = "Error";
-        
     }
 
     execBtn(value){
@@ -91,6 +115,9 @@ class CalcController {
 
             case 'igual':
                 
+                break;
+
+            case 'ponto':
                 break;
 
             case '0':
